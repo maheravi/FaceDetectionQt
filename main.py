@@ -34,6 +34,7 @@ class FaceDetector(QThread):
         for (x, y, w, h) in faces:
             cv2.rectangle(image, (x, y), (x+w, y+h), (0, 0, 255), 8)
 
+        # cv2.imwrite('output.png', image)
         self.signal_success_process.emit(image)
 
 
@@ -65,6 +66,7 @@ class Main(QWidget):
     def showOutput(self, image):
 
         my_pixmap = convertCvImage2QtImage(image)
+        # my_pixmap = QPixmap('output.png')
         self.ui.label.setPixmap(my_pixmap)
 
     def webcam(self):
@@ -83,10 +85,10 @@ class Main(QWidget):
                 x, y, w, h = face
 
                 frame_face = frame[y:y + h, x:x + w]
-                cv2.imwrite(f'kalle ha/kalle{i}.png', frame_face)
 
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 8)
 
+            cv2.waitKey(10)
             self.showOutput(frame)
 
 
